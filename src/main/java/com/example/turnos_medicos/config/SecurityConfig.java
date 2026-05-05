@@ -17,7 +17,8 @@ public class SecurityConfig {
                 .requestMatchers("/turnos").permitAll()
                 .anyRequest().authenticated()
             )
-            .formLogin(Customizer.withDefaults());
+            //.formLogin(Customizer.withDefaults());   // autenticación/inicio sesion por el formularios
+            .httpBasic(Customizer.withDefaults());     // autenticación/inicio sesión básica HTTP (cos postman)
 
         return http.build();
     }
