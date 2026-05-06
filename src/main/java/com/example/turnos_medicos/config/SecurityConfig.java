@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             //.formLogin(Customizer.withDefaults());   // autenticación/inicio sesion por el formularios
-            .httpBasic(Customizer.withDefaults());     // autenticación/inicio sesión básica HTTP (cos postman)
+            .httpBasic(Customizer.withDefaults());     // autenticación/inicio sesión básica HTTP (con postman)
 
         return http.build();
     }
