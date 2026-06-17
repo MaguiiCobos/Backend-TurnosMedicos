@@ -53,7 +53,7 @@ public class Auth0Service {
         return response.getBody();
     }
 
-    public void assignrecepcionistaRoleToUser(String userId) {
+    public void assignRecepcionistaRoleToUser(String userId) {
         String url = "https://" + domain + "/api/v2/users/" + userId + "/roles";
         String token = getManagementApiToken();
         HttpHeaders headers = new HttpHeaders();
