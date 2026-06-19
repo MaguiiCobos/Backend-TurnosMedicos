@@ -2,7 +2,6 @@ package com.example.turnos_medicos.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.example.turnos_medicos.entity.MenuItem;
 import jakarta.persistence.*;
 
 @Entity

@@ -1,6 +1,5 @@
 package com.example.turnos_medicos.entity;
 
-import com.example.turnos_medicos.entity.TurnoItem;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;

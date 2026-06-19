@@ -2,9 +2,6 @@ package com.example.turnos_medicos.controller;
 
 import com.example.turnos_medicos.entity.Turno;
 import com.example.turnos_medicos.service.TurnoService;
-import com.example.turnos_medicos.service.TurnoService;
-import com.example.turnos_medicos.dto.TurnoDTO;
-import com.example.turnos_medicos.dto.TurnoItemDTO;
 import com.example.turnos_medicos.dto.TurnoDTO;
 import com.example.turnos_medicos.dto.TurnoItemDTO;
 import com.example.turnos_medicos.repository.PersonaRepository;
@@ -34,7 +31,7 @@ public class TurnoController {
     }
 
     // POST /private/turnos (CLIENT)
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('USUARIO')")
     @PostMapping
     public ResponseEntity<TurnoDTO> createTurno(@RequestBody Turno turno, @AuthenticationPrincipal Jwt jwt) {
         turno.setUserId(jwt.getSubject());
@@ -46,8 +43,8 @@ public class TurnoController {
         return ResponseEntity.ok(dto);
     }
 
-    // GET /private/turnos (BARISTA o ADMIN)
-    @PreAuthorize("hasAnyRole('BARISTA','ADMIN')")
+    // GET /private/turnos (RECEPCIONISTA o ADMIN)
+    @PreAuthorize("hasAnyRole('RECEPCIONISTA','ADMIN')")
     @GetMapping
     public ResponseEntity<List<TurnoDTO>> getAllTurnos() {
         List<Turno> turnos = turnoService.findAll();
@@ -55,8 +52,8 @@ public class TurnoController {
         return ResponseEntity.ok(dtos);
     }
 
-    // GET /private/turnos/my (CLIENT)
-    @PreAuthorize("hasRole('CLIENT')")
+    // GET /private/turnos/my (USUARIO)
+    @PreAuthorize("hasRole('USUARIO')")
     @GetMapping("/my")
     public ResponseEntity<List<TurnoDTO>> getMyTurnos(@AuthenticationPrincipal Jwt jwt) {
         String userId = jwt.getSubject();
@@ -65,8 +62,8 @@ public class TurnoController {
         return ResponseEntity.ok(dtos);
     }
 
-    // PUT /private/turnos/{id}/status (BARISTA o ADMIN)
-    @PreAuthorize("hasAnyRole('BARISTA','ADMIN')")
+    // PUT /private/turnos/{id}/status (RECEPCIONISTA o ADMIN)
+    @PreAuthorize("hasAnyRole('RECEPCIONISTA','ADMIN')")
     @PutMapping("/{id}/status")
     public ResponseEntity<Turno> updateTurnoStatus(@PathVariable Long id, @RequestBody StatusUpdateRequest statusUpdate) {
         Optional<Turno> turnoOpt = turnoService.findById(id);
