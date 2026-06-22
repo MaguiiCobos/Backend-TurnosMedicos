@@ -1,41 +1,45 @@
 package com.example.turnos_medicos.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class TurnoDTO {
     private Long id;
-    private String status;
-    private Double total;
+    private String fecha;
+    private String horario;
+    private String disponible;
+    private String ubicacion;
+    private String customerEmail;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String customerEmail;
-    private List<TurnoItemDTO> items;
 
     public TurnoDTO() {}
 
-    public TurnoDTO(Long id, String status, Double total, LocalDateTime createdAt, LocalDateTime updatedAt, String customerEmail, List<TurnoItemDTO> items) {
+    public TurnoDTO(Long id, String fecha, String horario, String disponible, String ubicacion, String customerEmail, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
-        this.status = status;
-        this.total = total;
+        this.fecha = fecha;
+        this.horario = horario;
+        this.disponible = disponible;
+        this.ubicacion = ubicacion;
+        this.customerEmail = customerEmail;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.customerEmail = customerEmail;
-        this.items = items;
     }
 
+    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-    public Double getTotal() { return total; }
-    public void setTotal(Double total) { this.total = total; }
+    public String getFecha() { return fecha; }
+    public void setFecha(String fecha) { this.fecha = fecha; }
+    public String getHorario() { return horario; }
+    public void setHorario(String horario) { this.horario = horario; }
+    public String getDisponible() { return disponible; }
+    public void setDisponible(String disponible) { this.disponible = disponible; }
+    public String getUbicacion() { return ubicacion; }
+    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
+    public String getCustomerEmail() { return customerEmail; }
+    public void setCustomerEmail(String customerEmail) { this.customerEmail = customerEmail; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
-    public String getCustomerEmail() { return customerEmail; }
-    public void setCustomerEmail(String customerEmail) { this.customerEmail = customerEmail; }
-    public List<TurnoItemDTO> getItems() { return items; }
-    public void setItems(List<TurnoItemDTO> items) { this.items = items; }
-} 
+}
