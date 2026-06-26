@@ -31,7 +31,7 @@ public class RecepcionistaController {
         this.auth0Service = auth0Service;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('admin')")
     @GetMapping
     public ResponseEntity<List<UserRecepcionistaDTO>> getRecepcionistas(@RequestParam(required = false) String role) {
         List<Persona> personas;
@@ -46,26 +46,25 @@ public class RecepcionistaController {
         return ResponseEntity.ok(dtos);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('admin')")
     @PostMapping
     public ResponseEntity<?> createRecepcionista(@RequestBody CreateRecepcionistaRequestDTO request) {
-        // Validar que el email no exista en la base local
+        // Valida que el email no exista en la base local
         if (personaRepository.findByEmail(request.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("El email ya está registrado");
         }
-        // Crear usuario en Auth0
+        // Crea usuario en Auth0
         Map<String, Object> auth0User = auth0Service.createAuth0User(request.getEmail(), request.getPassword());
         String userId = (String) auth0User.get("user_id");
         if (userId == null) {
             return ResponseEntity.status(500).body("Error creando usuario en Auth0");
         }
-        // Asignar rol de recepcionista en Auth0
+        // Asigna rol de recepcionista en Auth0
         auth0Service.assignRecepcionistaRoleToUser(userId);
-        // Guardar en base local
         Persona persona = new Persona();
         persona.setEmail(request.getEmail());
-        persona.setNombre(request.getEmail()); // O puedes pedir el nombre en el DTO
-        persona.setRol("RECEPCIONISTA");
+        persona.setNombre(request.getNombre());
+        persona.setRol("recepcionista");
         persona.setAuth0Id(userId);
         Persona saved = personaRepository.save(persona);
         UserRecepcionistaDTO dto = mapToDTO(saved);

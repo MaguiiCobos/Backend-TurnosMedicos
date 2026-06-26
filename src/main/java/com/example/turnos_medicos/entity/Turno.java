@@ -1,7 +1,9 @@
 package com.example.turnos_medicos.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "turnos")
@@ -10,12 +12,19 @@ public class Turno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fecha;   // fecha de cada turno
-    private String horario;   // horario de cada turno
-    private String disponible;  // "DISPONIBLE" / "NO_DISPONIBLE"
-    private String ubicacion;   // dirección del consultorio
+    private LocalDate fecha;       // fecha de cada turno
+    private LocalTime horario;     // horario de cada turno
+    
+    public enum EstadoTurno { DISPONIBLE, RESERVADO, CANCELADO }
+    @Enumerated(EnumType.STRING)
+    private EstadoTurno estado;
+    private String ubicacion;    // dirección del consultorio
     private String userId;
+    
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+    
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @ManyToOne
@@ -25,6 +34,7 @@ public class Turno {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
@@ -35,12 +45,12 @@ public class Turno {
     // Getters y setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public String getFecha() { return fecha; }
-    public void setFecha(String fecha) { this.fecha = fecha; }
-    public String getHorario() { return horario; }
-    public void setHorario(String horario) { this.horario = horario; }
-    public String getDisponible() { return disponible; }
-    public void setDisponible(String disponible) { this.disponible = disponible; }
+    public LocalDate getFecha() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    public LocalTime getHorario() { return horario; }
+    public void setHorario(LocalTime horario) { this.horario = horario; }
+    public EstadoTurno getEstado() { return estado; }
+    public void setEstado(EstadoTurno estado) { this.estado = estado; }
     public String getUbicacion() { return ubicacion; }
     public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
     public String getUserId() { return userId; }
@@ -51,4 +61,4 @@ public class Turno {
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
     public Medico getMedico() { return medico; }
     public void setMedico(Medico medico) { this.medico = medico; }
-} 
+}

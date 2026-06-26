@@ -38,4 +38,8 @@ public class TurnoService {
     public void deleteById(Long id) {
         turnoRepository.deleteById(id);
     }
+
+    public List<Turno> findByUserIdAndEstado(String userId, Turno.EstadoTurno estado) {
+        return turnoRepository.findByUserIdAndEstado(userId, estado);
+    }
 }

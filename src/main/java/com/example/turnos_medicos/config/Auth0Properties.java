@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 public class Auth0Properties {
     private String audience;
     private String issuer;
-    private String secret;
 
     public String getAudience() {
         return audience;
@@ -24,12 +23,5 @@ public class Auth0Properties {
 
     public void setIssuer(String issuer) {
         this.issuer = issuer;
-    }
-    public String getSecret() {
-        return secret;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
     }
 } 

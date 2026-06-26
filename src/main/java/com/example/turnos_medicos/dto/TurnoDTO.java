@@ -1,12 +1,14 @@
 package com.example.turnos_medicos.dto;
 
+import com.example.turnos_medicos.entity.Turno.EstadoTurno; 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+import java.time.LocalTime;
 public class TurnoDTO {
     private Long id;
-    private String fecha;
-    private String horario;
-    private String disponible;
+    private LocalDate fecha;
+    private LocalTime horario;
+    private EstadoTurno estado; 
     private String ubicacion;
     private String customerEmail;
     private LocalDateTime createdAt;
@@ -14,26 +16,25 @@ public class TurnoDTO {
 
     public TurnoDTO() {}
 
-    public TurnoDTO(Long id, String fecha, String horario, String disponible, String ubicacion, String customerEmail, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public TurnoDTO(Long id, LocalDate fecha, LocalTime horario, EstadoTurno estado, String ubicacion, String customerEmail, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.fecha = fecha;
         this.horario = horario;
-        this.disponible = disponible;
+        this.estado = estado;
         this.ubicacion = ubicacion;
         this.customerEmail = customerEmail;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    // Getters y Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public String getFecha() { return fecha; }
-    public void setFecha(String fecha) { this.fecha = fecha; }
-    public String getHorario() { return horario; }
-    public void setHorario(String horario) { this.horario = horario; }
-    public String getDisponible() { return disponible; }
-    public void setDisponible(String disponible) { this.disponible = disponible; }
+    public LocalDate getFecha() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    public LocalTime getHorario() { return horario; }
+    public void setHorario(LocalTime horario) { this.horario = horario; }
+    public EstadoTurno getEstado() { return estado; }
+    public void setEstado(EstadoTurno estado) { this.estado = estado; }
     public String getUbicacion() { return ubicacion; }
     public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
     public String getCustomerEmail() { return customerEmail; }

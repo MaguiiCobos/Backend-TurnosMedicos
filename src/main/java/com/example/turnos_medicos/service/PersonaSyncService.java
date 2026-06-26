@@ -1,37 +1,31 @@
 package com.example.turnos_medicos.service;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.security.oauth2.jwt.Jwt;
 import com.example.turnos_medicos.entity.Persona;
 import com.example.turnos_medicos.repository.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.http.*;
-import java.util.Map;
 import java.util.List;
 
 @Service
 public class PersonaSyncService {
-    private final String auth0Domain = "dev-2yrckbrmnb1o4m1v.us.auth0.com";
-    // @Autowired
-    // private Auth0TokenService auth0TokenService;
+
     @Autowired
     private PersonaRepository personaRepository;
 
-    public Persona syncPersonaFromJwt(String jwtToken) {
-        DecodedJWT jwt = JWT.decode(jwtToken.replace("Bearer ", ""));
+    public Persona syncPersonaFromJwt(Jwt jwt) {
 
-        String auth0Id = jwt.getSubject(); // sub claim
-        String email = jwt.getClaim("email").asString();
-        String nombre = jwt.getClaim("name").asString();
-        // Extraer el rol desde el claim personalizado de Auth0
-        List<String> roles = jwt.getClaim("https://turnosmedicos.com/roles").asList(String.class);
-        String rol = (roles != null && !roles.isEmpty()) ? roles.get(0) : "USUARIO";
+        String auth0Id = jwt.getSubject();
+        String email   = jwt.getClaimAsString("email");
+        String nombre  = jwt.getClaimAsString("name");
 
-        // Buscar o actualizar en la base de datos
+        List<String> roles = jwt.getClaimAsStringList("https://turnos-medicos.com/roles");
+        String rol = (roles != null && !roles.isEmpty()) ? roles.get(0) : "usuario";
+
+        // Busca la persona en la bd por su auth0Id
         return personaRepository.findByAuth0Id(auth0Id)
             .map(persona -> {
+                // Si existe revisamos si hay datos para actualizar
                 boolean updated = false;
                 if (email != null && !email.equals(persona.getEmail())) {
                     persona.setEmail(email);
@@ -49,6 +43,7 @@ public class PersonaSyncService {
                 return persona;
             })
             .orElseGet(() -> {
+                // Si no existe la creamos por primera vez
                 Persona persona = new Persona();
                 persona.setAuth0Id(auth0Id);
                 persona.setEmail(email);
@@ -57,4 +52,4 @@ public class PersonaSyncService {
                 return personaRepository.save(persona);
             });
     }
-} 
+}
